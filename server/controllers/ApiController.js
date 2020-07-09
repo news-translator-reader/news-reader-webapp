@@ -7,11 +7,12 @@ const unirest = require("unirest");
 
 class ApiController {
     static getNews(req, res, next) {
-        let { token } = req.headers;
-        // let { location, preferences } = token;
+        let { interest,location } = req.headers;
+        console.log(interest,location)
 
 
-        const url = `http://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=${process.env.newsApiKey}`;
+
+        const url = `http://newsapi.org/v2/top-headlines?country=${location}&category=${interest}&apiKey=${process.env.newsApiKey}`;
 
         axios({
             method: 'GET',
@@ -30,6 +31,8 @@ class ApiController {
     }
 
     static translate(req, res) {
+        let {text} = req.headers
+        console.log(text);
 
         axios({
             "method": "POST",
@@ -43,10 +46,10 @@ class ApiController {
             }, "params": {
                 "profanityAction": "NoAction",
                 "textType": "plain",
-                "to": "id",
+                "to": "en",
                 "api-version": "3.0"
             }, "data": [{
-                "Text": "Learn to drive"
+                "Text": `${text}`
             }]
         })
             .then((response) => {
