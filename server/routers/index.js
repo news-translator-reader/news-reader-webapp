@@ -6,5 +6,6 @@ router.use('/api', apiRouter)
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
 router.get('/user', UserController.read)
+router.post('/googlelogin', UserController.googleLogin)
 
 module.exports = router;

@@ -34,6 +34,7 @@ function showHomePage() {
 }
 
 function logOut() {
+    signOut()
     localStorage.clear();
     showLogIn()
 }
@@ -334,8 +335,7 @@ function newsAPI() {
                               <span class="date-read">${newDate} <span class="mx-1">&bullet;</span> 
                               <a onclick="translateText1('${title}')">translate</a>  
                               <a onclick="textToSpeech3('${title}')">text to speech</a>
-                                <a onclick="showRegister()">register</a>
-                              
+                            
                             </div>
                           </div>
                         </div>
@@ -349,4 +349,36 @@ function newsAPI() {
         .fail(err => {
             console.log(err);
         })
+}
+
+
+function onSignIn(googleUser) {
+    // var profile = googleUser.getBasicProfile();
+    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    var id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+        method: `POST`,
+        url: `${URL}/googlelogin`,
+        data: {
+            id_token
+        }
+    })
+        .done(data => {
+            console.log(data)
+            localStorage.token = data.token
+            showHomePage()
+        }).fail(err => {
+            console.log(err)
+        })
+}
+
+function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        console.log('User signed out.');
+    });
 }
