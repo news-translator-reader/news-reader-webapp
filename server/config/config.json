@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "postgres",
-    "password": "kisrakap",
+    "password": "postgres",
     "database": "news-reader-webapp",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "postgres"
   },
   "test": {

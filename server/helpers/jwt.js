@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken')
 const secretkey = "rahasia"
 
-function createToken(payload){
+function createToken(payload) {
     return jwt.sign(payload, secretkey)
 }
 
-function verifyToken(token){
+function verifyToken(token) {
     return jwt.verify(token, secretkey)
-} 
+}
 
-module.exports = {createToken, verifyToken}
+module.exports = { createToken, verifyToken }
