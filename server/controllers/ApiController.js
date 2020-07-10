@@ -7,8 +7,10 @@ const unirest = require("unirest");
 
 class ApiController {
     static getNews(req, res, next) {
-        let { interest,location } = req.headers;
-        console.log(interest,location)
+        let { interest, location } = req.headers;
+        console.log(interest, location)
+        // let location = `id`;
+        // let interest = `Entertainment`
 
 
 
@@ -31,8 +33,15 @@ class ApiController {
     }
 
     static translate(req, res) {
-        let {text} = req.headers
-        console.log(text);
+        let { text, location } = req.headers
+
+        if (location === `id`) {
+            location = `en`;
+        }
+        else {
+            location = `id`;
+        }
+        console.log(text, location.length, `...........translat`);
 
         axios({
             "method": "POST",
@@ -46,7 +55,7 @@ class ApiController {
             }, "params": {
                 "profanityAction": "NoAction",
                 "textType": "plain",
-                "to": "en",
+                "to": `${location}`,
                 "api-version": "3.0"
             }, "data": [{
                 "Text": `${text}`
@@ -55,7 +64,7 @@ class ApiController {
             .then((response) => {
                 // console.log(response.data[0]);
                 let translate = response.data[0].translations[0].text;
-                res.status(200).json({translate})
+                res.status(200).json({ translate })
             })
             .catch((error) => {
                 console.log(error);

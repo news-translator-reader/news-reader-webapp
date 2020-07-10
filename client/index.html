@@ -150,10 +150,6 @@
             <a href="index.html" class="site-logo">
               RKHT
             </a>
-
-            <a href="#" class="ml-auto d-inline-block d-lg-none site-menu-toggle js-menu-toggle text-black"><span
-                class="icon-menu h3"></span></a>
-
           </div>
           <div class="site-navbar py-2 js-sticky-header site-navbar-target d-none pl-0 d-lg-block" role="banner">
 
@@ -163,65 +159,83 @@
                 <div class="mr-auto">
                   <nav class="site-navigation position-relative text-right" role="navigation">
                     <ul class="site-menu main-menu js-clone-nav mr-auto d-none pl-0 d-lg-block">
-                      <li class="active">
-                        <a href="index.html" class="nav-link text-left">Home</a>
-                      </li>
-                      <li>
-                        <a href="categories.html" class="nav-link text-left">Entertainment</a>
-                      </li>
-                      <li>
-                        <a href="categories.html" class="nav-link text-left">Health</a>
-                      </li>
-                      <li>
-                        <a href="categories.html" class="nav-link text-left">Science</a>
-                      </li>
-                      <li><a href="categories.html" class="nav-link text-left">Sport</a></li>
-                      <li>
-                        <a href="categories.html" class="nav-link text-left">Technology</a>
-                      </li>
-                      <li><a href="contact.html" class="nav-link text-left">Business</a></li>
-                    </ul>
-                  </nav>
 
-                </div>
+                      <li>
+                        <a onclick="newsEntertainment()" class="nav-link text-left">Entertainment</a>
+                      </li>
+                      <li>
+                        <a onclick="newsHealth()" class="nav-link text-left">Health</a>
+                      </li>
+                      <li>
+                        <a onclick="newsScience()" class="nav-link text-left">Science</a>
+                      </li>
+                      <li><a onclick="newsSport()" class="nav-link text-left">Sport</a></li>
+                      <li>
+                        <a onclick="newsTechnology()" class="nav-link text-left">Technology</a>
+                      </li>
+                      <li><a onclick="newsBisnis()" class="nav-link text-left">Business</a></li>
+                    <li><a onclick="locationLuar()" class="nav-link text-left">Berita Luar Negri</a></li>
+                    <li>
+                      <a onclick="locationDalam()" class="nav-link text-left">Berita Dalam Negri</a>
+                    </li>
+                    <li>
+                      <a onclick="logOut()" class="nav-link text-left">Log Out</a>
+                    </li>
+                    
+                    </ul>
+
+                  </nav>
+                  </div>
 
               </div>
-            </div>
 
+            </div>
           </div>
 
         </div>
 
-
-
-
-        <!-- END section -->
+      </div>
 
 
 
 
-        <div class="site-section">
-          <div class="container">
-            <div class="row">
-              <div class="col-lg-9">
-                <div class="col-lg-3">
-                  <div class="section-title">
-                    <h2>Popular Posts</h2>
-                  </div>
-                  <!--mulai isi berita di sini-->
-                  <div id='hasilTranslate'>
+      <!-- END section -->
 
-                  </div>
-                  <div id='containerBerita'>
 
-                    
 
-                  </div>
+
+      <div class="site-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-9">
+              <div class="col-lg-3">
+                <div class="section-title">
+                  <h2>Popular Posts</h2>
+                  <!--
+                  <a onclick="newsTechnology()" class="nav-link text-left">Technology</a>
+                  <a onclick="newsBisnis()" class="nav-link text-left">Business</a>
+                  <a onclick="newsEntertainment()" class="nav-link text-left">Entertainment</a>
+                  <a onclick="newsHealth()" class="nav-link text-left">Health</a>
+                  <a onclick="newsScience()" class="nav-link text-left">Science</a>
+                  <a onclick="newsSport()" class="nav-link text-left">Sport</a>
+                  <a onclick="locationLuar()" class="nav-link text-left">Berita Luar Negri</a>
+                  <a onclick="locationDalam()" class="nav-link text-left">Berita Dalam Negri</a>
+                  -->
+                </div>
+                <!--mulai isi berita di sini-->
+                <div id='hasilTranslate'>
 
                 </div>
+                <div id='containerBerita'>
+
+
+
+                </div>
+
               </div>
             </div>
           </div>
+        </div>
     </section>
 
 
