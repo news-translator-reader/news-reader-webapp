@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="694334749393-gkplctp7g49o6c9gkh9acu7i0fpoir6l.apps.googleusercontent.com">
   <title>RKHT Audio News</title>
 
   <!-- Font Icon -->
@@ -36,7 +37,7 @@
 </head>
 
 <body>
-
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
   <div class="main">
 
     <!-- Sign up form -->
@@ -132,9 +133,7 @@
             <div class="social-login">
               <span class="social-label">Or login with</span>
               <ul class="socials">
-                <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
-                <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
-                <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                <li><div class="g-signin2" data-onsuccess="onSignIn"></div></li>
               </ul>
             </div>
           </div>
