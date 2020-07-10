@@ -1,20 +1,17 @@
 const axios = require('axios');
-const unirest = require("unirest");
-
-
-
 
 
 class ApiController {
     static getNews(req, res, next) {
-        let { interest, location } = req.headers;
-        console.log(interest, location)
+        // console.log(req.userData)
+        // res.send(`sudah di apicontroller`)
+        let { preferences, location } = req.userData;
         // let location = `id`;
         // let interest = `Entertainment`
 
 
 
-        const url = `http://newsapi.org/v2/top-headlines?country=${location}&category=${interest}&apiKey=${process.env.newsApiKey}`;
+        const url = `http://newsapi.org/v2/top-headlines?country=${location}&category=${preferences}&apiKey=6f1967822fd44737bdee9037ef2f9f59`;
 
         axios({
             method: 'GET',
@@ -33,8 +30,11 @@ class ApiController {
     }
 
     static translate(req, res) {
-        let { text, location } = req.headers
-
+        // let { text, location } = req.headers
+        let location = req.userData.location
+        let text = req.body.text
+        console.log(text, location, `<<<<<<`)
+        
         if (location === `id`) {
             location = `en`;
         }
@@ -72,10 +72,6 @@ class ApiController {
 
 
 
-
-    }
-
-    static read(req, res) {
 
     }
 

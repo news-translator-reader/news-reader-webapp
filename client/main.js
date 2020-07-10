@@ -5,9 +5,8 @@ $(document).ready(function () {
     // showRegister();
     showHomePage();
     // kalau udah jalan log in nya localStorage ini di delete ya, di ganti setelah log in punya data
-    localStorage.setItem('interest', 'health');
-    localStorage.setItem('location', 'id');
-
+    // localStorage.setItem('interest', 'health');
+    // localStorage.setItem('location', 'id');
 
     // newsAPI()
 });
@@ -25,23 +24,29 @@ function showRegister() {
 }
 
 function showHomePage() {
-    $('.signup').hide();
-    $('.sign-in').hide();
-    $('.Homepage').show();
+    if (localStorage.token) {
+        $('.signup').hide();
+        $('.sign-in').hide();
+        $('.Homepage').show();
+    } else {
+        showLogIn()
+    }
 }
 
-function logOut(){
+function logOut() {
     localStorage.clear();
+    showLogIn()
 }
 
 function register() {
     event.preventDefault()
-    let name = $('#name').val();
+    let username = $('#name').val();
     let location = $('#location').val();
-    let interest = $('#interest').val();
+    let preferences = $('#interest').val();
     let email = $('#email').val();
     let password = $('#pass').val();
     let rePassword = $('#re_pass').val();
+    console.log(name, location, interest, email, password, rePassword)
 
     if (password !== rePassword || password === "" || rePassword === "") {
         Swal.fire({
@@ -54,16 +59,70 @@ function register() {
     }
     else {
         // masuk database trus simpen datanya ke database, abis di simpen baru masuk halaman login
+        $.ajax({
+            method: 'POST',
+            url: `${URL}/register`,
+            data: {
+                username,
+                location,
+                preferences,
+                email,
+                password
+            }
+        })
+            .done(_ => {
+                showLogIn()
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Wow!',
+                    text: 'You have created an account'
+                })
+            }).fail(err => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'something went wrong!',
+                })
+            })
         showLogIn();
     }
+
 
     // console.log(name, location, interest, email, password, rePassword, `.........register`)
 }
 
 function login() {
-    let loginEmail = $('#your_email').val();
-    let loginPass = $('#your_pass').val();
+    // let loginEmail = $('#your_email').val();
+    // let loginPass = $('#your_pass').val();
     // check ke database apakah email nya terdaftar ato nggk
+
+    event.preventDefault()
+
+    let email = $('#your_email').val();
+    let password = $('#your_pass').val();
+    $.ajax({
+        url: `${URL}/login`,
+        method: `POST`,
+        data: {
+            email,
+            password
+        }
+    })
+        .done(data => {
+            console.log(data)
+            localStorage.setItem('token', data.token)
+            showHomePage();
+            apiNews();
+        }).fail(err => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: `${err.responseJSON.errors}`
+            })
+        }).always(_ => {
+            $('#email').val('')
+            $('#password').val('')
+        })
     /*
     $.ajax{(
         method:'get',
@@ -105,18 +164,22 @@ function login() {
 
 }
 
-function translateText(text) {
+function translateText1(text) {
     //console.log(text)
 
     let location = localStorage.location;
     let dataText = text;
-
+    console.log(`ini transalte text`, text)
     $.ajax({
         url: `${URL}/api/translate`,
         method: `post`,
         headers: {
-            text,
-            location,
+            token: localStorage.token
+            // text,
+            // location,
+        },
+        data: {
+            text
         }
     })
         .done(data => {
@@ -129,7 +192,7 @@ function translateText(text) {
                           <div class="trend-contents">
                             <h2><a href="}">${data.translate}</a></h2>
                             <div class="post-meta">
-                          <a onclick="textToSpeech2('${data.translate}')">text to speech</a>
+                          <a onclick="textToSpeech3('${data.translate}')">text to speech</a>
                               
                               
                               
@@ -140,17 +203,16 @@ function translateText(text) {
 
             `)
 
-
-
         })
         .fail(err => {
+            console.log(`translatenya fail`)
             console.log(err);
         })
 }
 
 
 
-function textToSpeech2(text) {
+function textToSpeech3(text) {
 
     VoiceRSS.speech({
         key: '2a992d06f2364a7a983de72dfea72a22',
@@ -235,6 +297,7 @@ function locationDalam() {
 
 function newsAPI() {
     // localStorage.interest = 'sports'
+    let token = localStorage.token;
     let interest = localStorage.interest;
     let location = localStorage.location;
     console.log(interest, location, `.....newsAPI`)
@@ -244,29 +307,34 @@ function newsAPI() {
         url: `${URL}/api/news`,
         method: `get`,
         headers: {
-            interest,
-            location
+            // interest,
+            // location
+            token
         }
     })
         .then(data => {
             $('#hasilTranslate').empty()
-            for (let i = 0; i < 1; i++) {
+            $('#containerBerita').empty();
+            for (let i = 0; i < 5; i++) {
                 let newDate = '';
                 //console.log(data.data[i].publishedAt)
                 newDate = data.data[i].publishedAt.slice(0, 10);
 
 
-                $('#containerBerita').empty();
                 // console.log(data.data[i].publishedAt)
+                console.log(`sudah append`)
+                let title = String(data.data[i].title)
                 $('#containerBerita').append(`
             <div class="trend-entry d-flex">
                           <div class="number align-self-start">0${i + 1}</div>
                           <div class="trend-contents">
-                            <h2><a href="${data.data[i].url}"id='${i + 1}'>${data.data[i].title}</a></h2>
+                            <h2><a href="${data.data[i].url}" id='${i + 1}'>${title}</a></h2>
                             <div class="post-meta">
                               <span class="d-block">${data.data[i].author},
                               <span class="date-read">${newDate} <span class="mx-1">&bullet;</span> 
-                              <a onclick="translateText('${data.data[i].title}')">translate</a>  <a onclick="textToSpeech2('${data.data[i].title}')">text to speech</a>
+                              <a onclick="translateText1('${title}')">translate</a>  
+                              <a onclick="textToSpeech3('${title}')">text to speech</a>
+                                <a onclick="showRegister()">register</a>
                               
                             </div>
                           </div>
